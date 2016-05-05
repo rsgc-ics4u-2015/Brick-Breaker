@@ -1,29 +1,26 @@
 class Block {
-  
+
   // properties
-  int x;    // horizontal position of top-left corner
-  int y;    // vertical position of top-left corner
-  int w;    // block width
-  int h;    // block height
+  RVector location;
+  RVector size;
   int grey;  // amount of greyscale (0 = black, 255 = white)
-  
-  Block(int x_, int y_, int w_, int h_, int grey_) {
-    
-    x = x_;
-    y = y_;
-    w = w_;
-    h = h_;
+  boolean active;
+
+  Block(RVector location_, RVector size_, int grey_) {
+
+    location = location_;
+    size = size_;
     grey = grey_;
-    
+    active = true;
   }
-  
+
   // display the block
   void display() {
-    
-    stroke(0);
-    fill(grey);
-    rect(x, y, w, h);
-    
+
+    if (active) {
+      stroke(0);
+      fill(grey);
+      rect(location.x, location.y, size.x, size.y);
+    }
   }
-  
 }

@@ -22,11 +22,15 @@ void setup() {
 
   // Actually make an instance of a block
   for (int i = 0; i < blocks.length / 2; i+=1) {
-    blocks[i] = new Block(i * (width/15) + (i - 1) * 25 + 45, 20, width/15, 25, 50);
+    RVector l = new RVector(i * (width/15) + (i - 1) * 25 + 45, 20); // location of block
+    RVector s = new RVector(width/15, 25); // size of block
+    blocks[i] = new Block(l, s, 50);
   }
   
   for (int i = blocks.length / 2; i < blocks.length; i+=1) {
-    blocks[i] = new Block((i - blocks.length / 2) * (width/15) + (i - 1 - blocks.length / 2) * 25 + 45, 60, width/15, 25, 100);
+    RVector l = new RVector((i - blocks.length / 2) * (width/15) + (i - 1 - blocks.length / 2) * 25 + 45, 60); // location of block
+    RVector s = new RVector(width/15, 25); // size of block
+    blocks[i] = new Block(l, s, 100);
   }
 }
 

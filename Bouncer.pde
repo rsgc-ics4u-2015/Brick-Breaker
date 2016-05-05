@@ -7,7 +7,7 @@ class Bouncer {
   Bouncer() {
     
     location = new RVector( width / 2, height / 2 );
-    velocity = new RVector(1, 1);
+    velocity = new RVector(2, 2);
     
   }
   

@@ -30,7 +30,7 @@ class Paddle {
     location.add(velocity);
     
   }
-  
+    
   void goLeft() {
    velocity.x = -3; 
   }
