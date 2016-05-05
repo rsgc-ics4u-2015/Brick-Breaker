@@ -2,12 +2,14 @@ class Bouncer {
   
   RVector location;
   RVector velocity;
+  int radius;
 
   // constructor
   Bouncer() {
     
     location = new RVector( width / 2, height / 2 );
     velocity = new RVector(2, 2);
+    radius = 8;
     
   }
   
@@ -24,7 +26,7 @@ class Bouncer {
     fill(175);
   
     // Display the ball at the location (x, y)
-    ellipse(location.x, location.y, 16, 16);
+    ellipse(location.x, location.y, radius*2, radius*2);
   }
   
   // check for edges
