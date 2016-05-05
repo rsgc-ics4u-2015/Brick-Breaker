@@ -30,6 +30,15 @@ class Paddle {
     location.add(velocity);
     
   }
+  
+  // Check for a collision on an edge
+  void checkEdge() {
+    
+    if (location.x + size.x > width || location.x < 0) {
+       velocity.mult(-1); 
+    }
+    
+  }
     
   void goLeft() {
    velocity.x = -3; 

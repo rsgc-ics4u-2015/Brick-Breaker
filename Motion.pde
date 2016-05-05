@@ -51,8 +51,10 @@ void draw() {
   bouncer.display();
   
   // Draw the paddle
+  paddle.checkEdge();
   paddle.update();
   paddle.display();
+  
 }
 
 // Respond to keypresses
