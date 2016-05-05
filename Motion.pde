@@ -4,6 +4,9 @@ Block blocks[] = new Block[20];
 // Create a space in memory for the bouncer object
 Bouncer bouncer;
 
+// Create a space in memory for the paddle object
+Paddle paddle;
+
 // Runs once
 void setup() {
 
@@ -11,8 +14,11 @@ void setup() {
   size(800, 360);
   background(255);
   
-  // Actually create an instance of the bounder
+  // Actually create an instance of the bouncer
   bouncer = new Bouncer();
+
+  // Actually create an instance of the paddle
+  paddle = new Paddle();
 
   // Actually make an instance of a block
   for (int i = 0; i < blocks.length / 2; i+=1) {
@@ -32,11 +38,30 @@ void draw() {
 
   // Draw all the blocks
   for (int i = 0; i < blocks.length; i+=1) {
-    blocks[i].update();
+    blocks[i].display();
   }
   
   // Draw the bouncer
   bouncer.update();
   bouncer.checkEdges();
   bouncer.display();
+  
+  // Draw the paddle
+  paddle.update();
+  paddle.display();
+}
+
+// Respond to keypresses
+void keyPressed() {
+  
+  if (key == CODED) {
+    
+    if (keyCode == LEFT) {
+      paddle.goLeft();
+    } else if (keyCode == RIGHT) {
+      paddle.goRight();
+    }
+    
+  }
+  
 }

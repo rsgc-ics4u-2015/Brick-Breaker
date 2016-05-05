@@ -18,7 +18,7 @@ class Block {
   }
   
   // display the block
-  void update() {
+  void display() {
     
     stroke(0);
     fill(grey);
