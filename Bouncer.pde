@@ -6,8 +6,8 @@ class Bouncer {
   // constructor
   Bouncer() {
     
-    location = new RVector(100, 100);
-    velocity = new RVector(1, 3.3);
+    location = new RVector( width / 2, height / 2 );
+    velocity = new RVector(1, 1);
     
   }
   
