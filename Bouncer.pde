@@ -10,8 +10,7 @@ class Bouncer {
     location = new RVector( width / 2, height / 2 );
     velocity = new RVector(-2, -2);
     radius = 8;
-
-}
+  }
 
   // update position
   void update() {
@@ -48,14 +47,22 @@ class Bouncer {
   // check for a collision with the block
   void checkForBlockCollision(Block block) {
 
-    // Look for a collision
-    if (location.x > block.location.x &&
-        location.x < block.location.x + block.size.x &&
-        location.y > block.location.y &&
-        location.y < block.location.y + block.size.y)
-    {
+    // Check for 36 points around the circumference of the bouncer
+    for (int i = 0; i < 360; i += 10) {
 
-      block.active = false;
+      float x = location.x + cos(radians(i))*radius; 
+      float y = location.y + sin(radians(i))*radius; 
+      RVector positionOnCircumference = new RVector(x, y);
+
+      // Look for a collision
+      if (positionOnCircumference.x > block.location.x &&
+        positionOnCircumference.x < block.location.x + block.size.x &&
+        positionOnCircumference.y > block.location.y &&
+        positionOnCircumference.y < block.location.y + block.size.y)
+      {
+
+        block.active = false;
+      }
     }
   }
 } 
