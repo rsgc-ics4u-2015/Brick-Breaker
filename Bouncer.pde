@@ -4,12 +4,6 @@ class Bouncer {
   RVector velocity;
   int radius;
 
-  // bottom left of canvas
-  RVector canvasBottomLeft;
-  RVector canvasBottomRight;
-  RVector canvasTopRight;
-
-
   // constructor
   Bouncer() {
 
@@ -17,11 +11,7 @@ class Bouncer {
     velocity = new RVector(-2, -2);
     radius = 8;
 
-    // Set vectors to represent corners of screen
-    canvasBottomLeft = new RVector(0, height);
-    canvasBottomRight = new RVector(width, height);
-    canvasTopRight = new RVector(width, 0);
-  }
+}
 
   // update position
   void update() {
@@ -52,38 +42,17 @@ class Bouncer {
   }
 
   // check for a collision with the paddle
-  void checkPaddleCollision(Paddle p) {
+  void checkPaddleCollision(Paddle paddle) {
   }
 
   // check for a collision with the block
   void checkForBlockCollision(Block block) {
 
-    // Get vectors from diagram
-    RVector a = block.topLeft;
-    RVector b = block.bottomRight;
-    RVector c = location;
-
-    RVector d = RVector.sub(block.bottomLeft, canvasBottomLeft);
-    RVector e = RVector.sub(block.topRight, canvasBottomLeft);
-    RVector f = RVector.sub(location, canvasBottomLeft);
-
-    RVector g = RVector.sub(block.topLeft, canvasBottomRight);
-    RVector h = RVector.sub(block.bottomRight, canvasBottomRight);
-    RVector i = RVector.sub(location, canvasBottomRight);
-
-    RVector j = RVector.sub(block.bottomLeft, canvasTopRight);
-    RVector k = RVector.sub(block.topRight, canvasTopRight);
-    RVector l = RVector.sub(location, canvasTopRight);
-
     // Look for a collision
-    if (c.mag() > a.mag() &&
-      c.mag() < b.mag() &&
-      f.mag() > d.mag() &&
-      f.mag() < e.mag() &&
-      i.mag() < g.mag() &&
-      i.mag() > h.mag() &&
-      l.mag() < j.mag() &&
-      l.mag() > k.mag())
+    if (location.x > block.location.x &&
+        location.x < block.location.x + block.size.x &&
+        location.y > block.location.y &&
+        location.y < block.location.y + block.size.y)
     {
 
       block.active = false;
