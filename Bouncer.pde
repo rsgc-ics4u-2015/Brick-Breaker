@@ -58,10 +58,22 @@ class Bouncer {
       if (positionOnCircumference.x > block.location.x &&
         positionOnCircumference.x < block.location.x + block.size.x &&
         positionOnCircumference.y > block.location.y &&
-        positionOnCircumference.y < block.location.y + block.size.y)
+        positionOnCircumference.y < block.location.y + block.size.y &&
+        block.active == true)
       {
 
         block.active = false;
+        
+        // Change direction based on bounce location and velocity
+        if (i > 180 && velocity.y < 0) {
+          velocity.y *= -1;                // hit on top of ball when moving up on screen
+        } else if (i > 90 && i < 270 && velocity.x < 0) {
+          velocity.x *= -1;                // hit on left side of ball when moving left on screen
+        } else if (i > 0 && i < 180 && velocity.y > 0) {
+          velocity.y *= -1;                // hit on bottom of ball when moving down on screen
+        } else if (i > 270 && velocity.x > 0 || i < 90 && velocity.x > 0) {
+          velocity.x *= -1;                // hit on right side of ball when moving right on screen
+        }
       }
     }
   }
