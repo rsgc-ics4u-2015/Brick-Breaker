@@ -75,6 +75,18 @@ class RVector {
     
   }
   
+  static RVector normalize(RVector v) {
+    
+    float m = v.mag();
+    
+    // Make sure we don't divide by zero
+    if (m != 0) {
+      v.div(m);  // normalize this vector instance using the magnitude
+    }
+    
+    return v;
+  }
+  
   // limit the magnitude of this vector
   void limit(float max) {
     if (mag() > max) {

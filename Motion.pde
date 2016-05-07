@@ -7,13 +7,17 @@ Bouncer bouncer;
 // Create a space in memory for the paddle object
 Paddle paddle;
 
+// Variable to control frame rate
+int rate = 30;
+
 // Runs once
 void setup() {
 
   // Create a white background
   size(800, 360);
   background(255);
-  
+
+
   // Actually create an instance of the bouncer
   bouncer = new Bouncer();
 
@@ -26,7 +30,7 @@ void setup() {
     RVector s = new RVector(width/15, 25); // size of block
     blocks[i] = new Block(l, s, 50);
   }
-  
+
   for (int i = blocks.length / 2; i < blocks.length; i+=1) {
     RVector l = new RVector((i - blocks.length / 2) * (width/15) + (i - 1 - blocks.length / 2) * 25 + 45, 60); // location of block
     RVector s = new RVector(width/15, 25); // size of block
@@ -36,38 +40,49 @@ void setup() {
 
 // Runs forever
 void draw() {
-
+  
   // Clear the background
   background(255);
 
-  // Draw all the blocks
-  for (int i = 0; i < blocks.length; i+=1) {
-    blocks[i].display();
-  }
-  
+  // Adjust framerate
+  fill(0);
+  frameRate(rate);
+  text("fps: " + rate, 5, height - 10);
+
   // Draw the bouncer
   bouncer.update();
   bouncer.checkEdges();
   bouncer.display();
-  
+
+
+  // Check for collisions then draw all the blocks
+  for (int i = 0; i < blocks.length; i+=1) {
+    bouncer.checkForBlockCollision(blocks[i]);
+    blocks[i].display();
+  }
+
+
   // Draw the paddle
   paddle.checkEdge();
   paddle.update();
   paddle.display();
-  
 }
 
 // Respond to keypresses
 void keyPressed() {
-  
+
   if (key == CODED) {
-    
+
     if (keyCode == LEFT) {
       paddle.goLeft();
     } else if (keyCode == RIGHT) {
       paddle.goRight();
+    } else if (keyCode == UP) {
+      rate += 1;
+    } else if (keyCode == DOWN) {
+      if (rate > 1) {
+        rate -= 1;
+      }
     }
-    
   }
-  
 }
