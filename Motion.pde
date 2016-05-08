@@ -1,5 +1,5 @@
 // Create a space in memory for many block objects
-Block blocks[] = new Block[30];
+Block blocks[][] = new Block[4][10];
 
 // Create a space in memory for the bouncer object
 Bouncer bouncer;
@@ -11,10 +11,10 @@ Paddle paddle;
 int rate = 30;
 
 // Variable to control number of rows of blocks
-int rows = 3;
+int rows = 4;
 
 // Variable for number of columns
-int columns = blocks.length / rows;
+int columns = 10;
 
 // Runs once
 void setup() {
@@ -29,29 +29,18 @@ void setup() {
   // Actually create an instance of the paddle
   paddle = new Paddle();
 
-  // Actually make an instance of a block
-  for (int i = columns*0; i < columns; i+=1) {
-    RVector l = new RVector((i - columns * 0) * (width/15) + (i - 1 - columns * 0) * 25 + 45, 20); // location of block
-    RVector s = new RVector(width/15, 25); // size of block
-    blocks[i] = new Block(l, s, 50);
-  }
-
-  for (int i = columns * 1; i < columns * 2; i+=1) {
-    RVector l = new RVector((i - columns * 1) * (width/15) + (i - 1 - columns * 1) * 25 + 45, 60); // location of block
-    RVector s = new RVector(width/15, 25); // size of block
-    blocks[i] = new Block(l, s, 100);
-  }
-
-  for (int i = columns * 2; i < columns * 3; i+=1) {
-    RVector l = new RVector((i - columns * 2) * (width/15) + (i - 1 - columns * 2) * 25 + 45, 100); // location of block
-    RVector s = new RVector(width/15, 25); // size of block
-    blocks[i] = new Block(l, s, 150);
+  for (int i = 0; i < rows; i += 1) {
+    for (int j = 0; j < columns; j += 1) {
+      RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
+      RVector s = new RVector(width/15, 25); // size of block
+      blocks[i][j] = new Block(l, s, 50 * i);
+    }
   }
 }
 
 // Runs forever
 void draw() {
-  
+
   // Clear the background
   background(255);
 
@@ -67,9 +56,11 @@ void draw() {
 
 
   // Check for collisions then draw all the blocks
-  for (int i = 0; i < blocks.length; i+=1) {
-    bouncer.checkForBlockCollision(blocks[i]);
-    blocks[i].display();
+  for (int i = 0; i < rows; i+=1) {
+    for (int j = 0; j < columns; j+=1) {
+      bouncer.checkForBlockCollision(blocks[i][j]);
+      blocks[i][j].display();
+    }
   }
 
 

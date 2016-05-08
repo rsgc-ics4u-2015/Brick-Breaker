@@ -7,8 +7,8 @@ class Bouncer {
   // constructor
   Bouncer() {
 
-    location = new RVector( width / 2, height / 2 );
-    velocity = new RVector(-2, -2);
+    location = new RVector( width / 2, height / 4 * 3 );
+    velocity = new RVector(2, 2);
     radius = 8;
   }
 
