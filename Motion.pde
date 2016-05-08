@@ -16,6 +16,13 @@ int rows = 4;
 // Variable for number of columns
 int columns = 10;
 
+// Variable to track number of lives
+int lives = 3;
+
+// Font for game over
+PFont gameOver;
+PFont fps;
+
 // Runs once
 void setup() {
 
@@ -36,6 +43,10 @@ void setup() {
       blocks[i][j] = new Block(l, s, 50 * i);
     }
   }
+  
+  // Set text fonts
+  gameOver = loadFont("HighSchoolUSASans-48.vlw");
+  fps = loadFont("HelveticaNeue-12.vlw");
 }
 
 // Runs forever
@@ -44,29 +55,50 @@ void draw() {
   // Clear the background
   background(255);
 
-  // Adjust framerate
-  fill(0);
-  frameRate(rate);
-  text("fps: " + rate, 5, height - 10);
+  // Play game or show game over
+  if (lives > 0) {
 
-  // Draw the bouncer
-  bouncer.update();
-  bouncer.checkEdges();
-  bouncer.checkForPaddleCollision(paddle);
-  bouncer.display();
+    // Adjust framerate
+    fill(0);
+    frameRate(rate);
+    textFont(fps);
+    text("fps: " + rate, 5, height - 10);
 
-  // Check for collisions then draw all the blocks
-  for (int i = 0; i < rows; i+=1) {
-    for (int j = 0; j < columns; j+=1) {
-      bouncer.checkForBlockCollision(blocks[i][j]);
-      blocks[i][j].display();
+    // Update bouncer and check position
+    if (bouncer.checkEdges() == -1) {
+      lives -= 1;
+      bouncer.reset();
+    } else {
+
+      // Bounce on paddle if necessary
+      bouncer.checkForPaddleCollision(paddle);
+
+      // Update bouncer position
+      bouncer.update();
+
+      // Draw bouncer
+      bouncer.display();
+
+      // Check for collisions then draw all the blocks
+      for (int i = 0; i < rows; i+=1) {
+        for (int j = 0; j < columns; j+=1) {
+          bouncer.checkForBlockCollision(blocks[i][j]);
+          blocks[i][j].display();
+        }
+      }
+
+      // Draw the paddle
+      paddle.checkEdge();
+      paddle.update();
+      paddle.display();
     }
+  } else {
+    textAlign(CENTER, CENTER);
+    textSize(48);
+    fill(0);
+    textFont(gameOver);
+    text("GAME OVER", width/2, height/2);
   }
-
-  // Draw the paddle
-  paddle.checkEdge();
-  paddle.update();
-  paddle.display();
 }
 
 // Respond to keypresses
