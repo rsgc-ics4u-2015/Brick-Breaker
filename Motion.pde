@@ -51,7 +51,7 @@ void setup() {
     for (int j = 0; j < columns; j += 1) {
       RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
       RVector s = new RVector(width/15, 25); // size of block
-      blocks[i][j] = new Block(l, s, 0, 80, 70 - 15 * i, 40 - i * 10);
+      blocks[i][j] = new Block(l, s, 0 + 15 * i, 80, 70, 40 - i * 10);
     }
   }
   
