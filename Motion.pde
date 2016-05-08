@@ -17,10 +17,16 @@ int rows = 4;
 int columns = 10;
 
 // Variable to track number of lives
-int lives = 3;
+int lives = 2;
 
-// Variable to track score
+// Variable to track overall score
 int score = 0;
+
+// Variable to track score on this level
+int thisLevelScore = 0;
+
+// Variable to track level
+int level = 0;
 
 // Font for game over
 PFont gameOver;
@@ -30,14 +36,14 @@ PFont fps;
 void setup() {
 
   // Create canvas
-  size(800, 360);
-  
+  size(800, 400);
+
   // Set color mode
   colorMode(HSB, 360, 100, 100);
 
   // Black background
   background(0, 0, 0);
-  
+
   // No borders on shapes
   noStroke();
 
@@ -47,21 +53,15 @@ void setup() {
   // Actually create an instance of the paddle
   paddle = new Paddle();
 
-  for (int i = 0; i < rows; i += 1) {
-    for (int j = 0; j < columns; j += 1) {
-      RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
-      RVector s = new RVector(width/15, 25); // size of block
-      blocks[i][j] = new Block(l, s, 0 + 15 * i, 80, 70, 40 - i * 10);
-    }
-  }
-  
+  // Initialize the blocks
+  initBlocks();
+
   // Set text fonts
   gameOver = loadFont("HighSchoolUSASans-48.vlw");
   fps = loadFont("HelveticaNeue-12.vlw");
-  
+
   // No mouse pointer
   noCursor();
-  
 }
 
 // Runs forever
@@ -71,7 +71,7 @@ void draw() {
   background(0, 0, 0);
 
   // Play game or show game over
-  if (lives > 0) {
+  if (lives >= 0) {
 
     // Adjust framerate
     frameRate(rate);
@@ -79,12 +79,12 @@ void draw() {
     textFont(fps);
     textAlign(LEFT);
     text("fps: " + rate, 5, height - 10);
-    
+
     // Show score
     fill(0, 0, 70);  // white
     textFont(fps);
     textAlign(RIGHT);
-    text("lives: " + lives + "     score: " + score, width - 5, height - 10);
+    text("level: " + (level + 1) + "     new lives: " + lives + "     score: " + score, width - 5, height - 10);
 
     // Update bouncer and check position
     if (bouncer.checkEdges() == -1) {
@@ -106,8 +106,19 @@ void draw() {
       for (int i = 0; i < rows; i+=1) {
         for (int j = 0; j < columns; j+=1) {
           score += bouncer.checkForBlockCollision(blocks[i][j]);
+          thisLevelScore = score - level * 1000;
           blocks[i][j].display();
         }
+      }
+      
+      // Go to next level if necessary
+      if (score % 1000 == 0 && thisLevelScore > 0) {
+        level += 1;
+        lives += 1;
+        bouncer.reset();
+        paddle.reset();
+        initBlocks();
+        thisLevelScore = 0;
       }
 
       // Draw the paddle
@@ -139,6 +150,34 @@ void keyPressed() {
       if (rate > 1) {
         rate -= 1;
       }
+    }
+  } else if (key == 'c') {  // cheat to test level advancing
+    
+      for (int i = 0; i < rows; i+=1) {
+        for (int j = 0; j < columns; j+=1) {
+          blocks[i][j].active = false;
+        }
+      }
+      blocks[3][6].active = true;
+      score = 990 + level * 1000;
+      thisLevelScore = 990;
+      
+      bouncer.location.x = width/2;
+      bouncer.location.y = height - 100;
+      bouncer.velocity.x = 2;
+      bouncer.velocity.y = -2;
+      bouncer.countDown = 60;
+    
+  }
+}
+
+// Initialize the blocks
+void initBlocks() {
+  for (int i = 0; i < rows; i += 1) {
+    for (int j = 0; j < columns; j += 1) {
+      RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
+      RVector s = new RVector(width/15, 25); // size of block
+      blocks[i][j] = new Block(l, s, (0 + 15 * i + 60 * level) % 360, 80, 70, 40 - i * 10);
     }
   }
 }

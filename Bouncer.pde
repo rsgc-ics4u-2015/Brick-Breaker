@@ -33,7 +33,7 @@ class Bouncer {
 
   // reset position
   void reset() {
-    location = new RVector( width / 2, height / 4 * 3 );
+    location = new RVector( width / 2, height / 16 * 11 );
     float randomValue = random(-1, 1);
     if (randomValue > 0) {
       velocity = new RVector(2, 2);

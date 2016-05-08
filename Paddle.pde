@@ -8,8 +8,7 @@ class Paddle {
   Paddle() {
 
     size = new RVector(100, 10);
-    location = new RVector(width / 2 - size.x / 2, height - 25);
-    velocity = new RVector(0, 0);
+    reset();
   }
 
   // draw the paddle
@@ -29,7 +28,7 @@ class Paddle {
 
   // reset the paddle position
   void reset() {
-    location = new RVector(width / 2 - size.x / 2, height - 25);
+    location = new RVector(width / 2 - size.x / 2, height - 50);
     velocity = new RVector(0, 0);
   }
 
