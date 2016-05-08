@@ -8,7 +8,7 @@ Bouncer bouncer;
 Paddle paddle;
 
 // Variable to control frame rate
-int rate = 30;
+int rate = 60;
 
 // Variable to control number of rows of blocks
 int rows = 4;
@@ -52,8 +52,8 @@ void draw() {
   // Draw the bouncer
   bouncer.update();
   bouncer.checkEdges();
+  bouncer.checkForPaddleCollision(paddle);
   bouncer.display();
-
 
   // Check for collisions then draw all the blocks
   for (int i = 0; i < rows; i+=1) {
@@ -62,7 +62,6 @@ void draw() {
       blocks[i][j].display();
     }
   }
-
 
   // Draw the paddle
   paddle.checkEdge();

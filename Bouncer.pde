@@ -41,7 +41,37 @@ class Bouncer {
   }
 
   // check for a collision with the paddle
-  void checkPaddleCollision(Paddle paddle) {
+  void checkForPaddleCollision(Paddle paddle) {
+
+    // Check for 36 points around the circumference of the bouncer
+    for (int i = 0; i < 360; i += 10) {
+
+      float x = location.x + cos(radians(i))*radius; 
+      float y = location.y + sin(radians(i))*radius; 
+      RVector positionOnCircumference = new RVector(x, y);
+
+      // Look for a collision
+      if (positionOnCircumference.x > paddle.location.x &&
+        positionOnCircumference.x < paddle.location.x + paddle.size.x &&
+        positionOnCircumference.y > paddle.location.y &&
+        positionOnCircumference.y < paddle.location.y + paddle.size.y)
+
+      {
+
+        // Change direction based on bounce location and velocity
+        if (i > 0 && i < 180 && velocity.y > 0) {
+          velocity.y *= -1;                // hit on bottom of ball when moving down on screen
+        } else if (i > 270 && velocity.x > 0 || i < 90 && velocity.x > 0) {
+          if (!(paddle.velocity.x > 0 && velocity.x > 0 || paddle.velocity.x < 0 && velocity.x < 0)) {
+            velocity.x *= -1;                // hit on right side of ball when moving right on screen
+          }
+        } else if (i > 90 && i < 270 && velocity.x < 0) {
+          if (!(paddle.velocity.x > 0 && velocity.x > 0 || paddle.velocity.x < 0 && velocity.x < 0)) {
+            velocity.x *= -1;                // hit on left side of ball when moving left on screen
+          }
+        }
+      }
+    }
   }
 
   // check for a collision with the block
@@ -63,7 +93,7 @@ class Bouncer {
       {
 
         block.active = false;
-        
+
         // Change direction based on bounce location and velocity
         if (i > 180 && velocity.y < 0) {
           velocity.y *= -1;                // hit on top of ball when moving up on screen
