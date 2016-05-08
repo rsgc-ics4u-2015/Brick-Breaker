@@ -8,7 +8,7 @@ class Bouncer {
   // constructor
   Bouncer() {
     
-    reset();
+    reset(0);
     radius = 8;
   }
 
@@ -32,13 +32,13 @@ class Bouncer {
   }
 
   // reset position
-  void reset() {
+  void reset(float increment) {
     location = new RVector( width / 2, height / 16 * 11 );
     float randomValue = random(-1, 1);
     if (randomValue > 0) {
-      velocity = new RVector(2, 2);
+      velocity = new RVector(2 + increment, 2 + increment);
     } else {
-      velocity = new RVector(-2, 2);
+      velocity = new RVector(-2 - increment, 2 + increment);
     }
     countDown = 60;
   }

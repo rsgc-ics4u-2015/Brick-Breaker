@@ -44,11 +44,11 @@ class Paddle {
     }
   }
 
-  void goLeft() {
-    velocity.x = -4;
+  void goLeft(float by) {
+    velocity.x = by;
   }
 
-  void goRight() {
-    velocity.x = 4;
+  void goRight(float by) {
+    velocity.x = by;
   }
 }

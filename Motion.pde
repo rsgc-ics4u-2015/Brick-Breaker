@@ -89,7 +89,7 @@ void draw() {
     // Update bouncer and check position
     if (bouncer.checkEdges() == -1) {
       lives -= 1;
-      bouncer.reset();
+      bouncer.reset(level*0.2);
       paddle.reset();
     } else {
 
@@ -115,7 +115,7 @@ void draw() {
       if (score % 1000 == 0 && thisLevelScore > 0) {
         level += 1;
         lives += 1;
-        bouncer.reset();
+        bouncer.reset(level*0.2);
         paddle.reset();
         initBlocks();
         thisLevelScore = 0;
@@ -141,9 +141,9 @@ void keyPressed() {
   if (key == CODED) {
 
     if (keyCode == LEFT) {
-      paddle.goLeft();
+      paddle.goLeft(-4 - level*0.4);
     } else if (keyCode == RIGHT) {
-      paddle.goRight();
+      paddle.goRight(4 + level*0.4);
     } else if (keyCode == UP) {
       rate += 1;
     } else if (keyCode == DOWN) {
