@@ -118,7 +118,7 @@ void draw() {
   } else {
     textAlign(CENTER, CENTER);
     textSize(48);
-    fill(0);
+    fill(0, 0, 80);
     textFont(gameOver);
     text("GAME OVER", width/2, height/2);
   }
