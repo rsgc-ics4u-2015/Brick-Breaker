@@ -59,6 +59,9 @@ void setup() {
   gameOver = loadFont("HighSchoolUSASans-48.vlw");
   fps = loadFont("HelveticaNeue-12.vlw");
   
+  // No mouse pointer
+  noCursor();
+  
 }
 
 // Runs forever
