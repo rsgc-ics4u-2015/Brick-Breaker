@@ -7,10 +7,8 @@ class Bouncer {
 
   // constructor
   Bouncer() {
-
-    location = new RVector( width / 2, height / 4 * 3 );
-    velocity = new RVector(2, 2);
-    countDown = 60;
+    
+    reset();
     radius = 8;
   }
 
@@ -36,7 +34,12 @@ class Bouncer {
   // reset position
   void reset() {
     location = new RVector( width / 2, height / 4 * 3 );
-    velocity = new RVector(2, 2);
+    float randomValue = random(-1, 1);
+    if (randomValue > 0) {
+      velocity = new RVector(2, 2);
+    } else {
+      velocity = new RVector(-2, 2);
+    }
     countDown = 60;
   }
 
@@ -93,7 +96,7 @@ class Bouncer {
 
   // check for a collision with the block
   int checkForBlockCollision(Block block) {
-    
+
     int pointsEarned = 0;
 
     // Check for 36 points around the circumference of the bouncer
@@ -126,8 +129,7 @@ class Bouncer {
         }
       }
     }
-    
+
     return pointsEarned;
-    
   }
 } 
