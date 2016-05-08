@@ -19,6 +19,9 @@ int columns = 10;
 // Variable to track number of lives
 int lives = 3;
 
+// Variable to track score
+int score = 0;
+
 // Font for game over
 PFont gameOver;
 PFont fps;
@@ -40,7 +43,7 @@ void setup() {
     for (int j = 0; j < columns; j += 1) {
       RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
       RVector s = new RVector(width/15, 25); // size of block
-      blocks[i][j] = new Block(l, s, 50 * i);
+      blocks[i][j] = new Block(l, s, 50 * i, 40 - i * 10);
     }
   }
   
@@ -59,10 +62,16 @@ void draw() {
   if (lives > 0) {
 
     // Adjust framerate
-    fill(0);
     frameRate(rate);
+    fill(0);
     textFont(fps);
     text("fps: " + rate, 5, height - 10);
+    
+    // Show score
+    fill(0);
+    textFont(fps);
+    text("score: " + score, 50, height - 10);
+    
 
     // Update bouncer and check position
     if (bouncer.checkEdges() == -1) {
@@ -83,7 +92,7 @@ void draw() {
       // Check for collisions then draw all the blocks
       for (int i = 0; i < rows; i+=1) {
         for (int j = 0; j < columns; j+=1) {
-          bouncer.checkForBlockCollision(blocks[i][j]);
+          score += bouncer.checkForBlockCollision(blocks[i][j]);
           blocks[i][j].display();
         }
       }

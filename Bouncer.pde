@@ -93,7 +93,9 @@ class Bouncer {
   }
 
   // check for a collision with the block
-  void checkForBlockCollision(Block block) {
+  int checkForBlockCollision(Block block) {
+    
+    int pointsEarned = 0;
 
     // Check for 36 points around the circumference of the bouncer
     for (int i = 0; i < 360; i += 10) {
@@ -111,6 +113,7 @@ class Bouncer {
       {
 
         block.active = false;
+        pointsEarned += block.value;
 
         // Change direction based on bounce location and velocity
         if (i > 180 && velocity.y < 0) {
@@ -124,5 +127,8 @@ class Bouncer {
         }
       }
     }
+    
+    return pointsEarned;
+    
   }
 } 

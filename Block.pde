@@ -3,21 +3,23 @@ class Block {
   // properties
   RVector location;
   RVector size;
-  int grey;  // amount of greyscale (0 = black, 255 = white)
-  boolean active;
+  int grey;        // amount of greyscale (0 = black, 255 = white)
+  int value;       // point value for this block
+  boolean active;  // in play when true, destroyed when false
   
   RVector topLeft;      // Corners of this block
   RVector bottomLeft;
   RVector topRight;
   RVector bottomRight;
   
-  Block(RVector location_, RVector size_, int grey_) {
+  Block(RVector location_, RVector size_, int grey_, int value_) {
 
     // Initalize the block with the given values
     location = location_;
     size = size_;
     grey = grey_;
     active = true;
+    value = value_;
     
     // Set vectors used for detecting collisions
     topLeft = location;
