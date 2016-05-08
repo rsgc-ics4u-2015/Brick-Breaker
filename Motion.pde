@@ -84,7 +84,7 @@ void draw() {
     fill(0, 0, 70);  // white
     textFont(fps);
     textAlign(RIGHT);
-    text("score: " + score, width - 5, height - 10);
+    text("lives: " + lives + "     score: " + score, width - 5, height - 10);
 
     // Update bouncer and check position
     if (bouncer.checkEdges() == -1) {
