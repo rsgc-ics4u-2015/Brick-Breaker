@@ -3,19 +3,25 @@ class Bouncer {
   RVector location;
   RVector velocity;
   int radius;
+  int countDown; 
 
   // constructor
   Bouncer() {
 
     location = new RVector( width / 2, height / 4 * 3 );
     velocity = new RVector(2, 2);
+    countDown = 60;
     radius = 8;
   }
 
   // update position
   void update() {
     // Move the ball according to it's speed
-    location.add(velocity);
+    if (countDown > 0) {
+      countDown -= 1;
+    } else {
+      location.add(velocity);
+    }
   }
 
   // show the object
@@ -32,6 +38,7 @@ class Bouncer {
   void reset() {
     location = new RVector( width / 2, height / 4 * 3 );
     velocity = new RVector(2, 2);
+    countDown = 60;
   }
 
   // check for edges
