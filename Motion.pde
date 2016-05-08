@@ -68,6 +68,7 @@ void draw() {
     if (bouncer.checkEdges() == -1) {
       lives -= 1;
       bouncer.reset();
+      paddle.reset();
     } else {
 
       // Bounce on paddle if necessary
