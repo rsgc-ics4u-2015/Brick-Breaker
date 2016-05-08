@@ -29,9 +29,17 @@ PFont fps;
 // Runs once
 void setup() {
 
-  // Create a white background
+  // Create canvas
   size(800, 360);
-  background(255);
+  
+  // Set color mode
+  colorMode(HSB, 360, 100, 100);
+
+  // Black background
+  background(0, 0, 0);
+  
+  // No borders on shapes
+  noStroke();
 
   // Actually create an instance of the bouncer
   bouncer = new Bouncer();
@@ -43,35 +51,37 @@ void setup() {
     for (int j = 0; j < columns; j += 1) {
       RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
       RVector s = new RVector(width/15, 25); // size of block
-      blocks[i][j] = new Block(l, s, 50 * i, 40 - i * 10);
+      blocks[i][j] = new Block(l, s, 0, 80, 70 - 10 * i, 40 - i * 10);
     }
   }
   
   // Set text fonts
   gameOver = loadFont("HighSchoolUSASans-48.vlw");
   fps = loadFont("HelveticaNeue-12.vlw");
+  
 }
 
 // Runs forever
 void draw() {
 
   // Clear the background
-  background(255);
+  background(0, 0, 0);
 
   // Play game or show game over
   if (lives > 0) {
 
     // Adjust framerate
     frameRate(rate);
-    fill(0);
+    fill(0, 0, 70);  // white
     textFont(fps);
+    textAlign(LEFT);
     text("fps: " + rate, 5, height - 10);
     
     // Show score
-    fill(0);
+    fill(0, 0, 70);  // white
     textFont(fps);
-    text("score: " + score, 50, height - 10);
-    
+    textAlign(RIGHT);
+    text("score: " + score, width - 5, height - 10);
 
     // Update bouncer and check position
     if (bouncer.checkEdges() == -1) {

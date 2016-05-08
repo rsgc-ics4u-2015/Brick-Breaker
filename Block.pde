@@ -3,7 +3,9 @@ class Block {
   // properties
   RVector location;
   RVector size;
-  int grey;        // amount of greyscale (0 = black, 255 = white)
+  int hue;
+  int saturation;
+  int brightness;
   int value;       // point value for this block
   boolean active;  // in play when true, destroyed when false
   
@@ -12,12 +14,14 @@ class Block {
   RVector topRight;
   RVector bottomRight;
   
-  Block(RVector location_, RVector size_, int grey_, int value_) {
+  Block(RVector location_, RVector size_, int hue_, int saturation_, int brightness_, int value_) {
 
     // Initalize the block with the given values
     location = location_;
     size = size_;
-    grey = grey_;
+    hue = hue_;
+    saturation = saturation_;
+    brightness = brightness_;
     active = true;
     value = value_;
     
@@ -33,8 +37,7 @@ class Block {
   void display() {
 
     if (active) {
-      stroke(0);
-      fill(grey);
+      fill(hue, saturation, brightness);
       rect(location.x, location.y, size.x, size.y);
     }
   }

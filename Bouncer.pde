@@ -27,8 +27,7 @@ class Bouncer {
   // show the object
   void display() {
     // Visual characteristics of the ball
-    stroke(0);
-    fill(175);
+    fill(0, 0, 90);
 
     // Display the ball at the location (x, y)
     ellipse(location.x, location.y, radius*2, radius*2);

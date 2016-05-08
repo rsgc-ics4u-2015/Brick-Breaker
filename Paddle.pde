@@ -16,8 +16,7 @@ class Paddle {
   void display() {
 
     // draw
-    stroke(0);
-    fill(255);
+    fill(0, 0, 30);
     rect(location.x, location.y, size.x, size.y);
   }
 
