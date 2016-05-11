@@ -110,7 +110,7 @@ void draw() {
           blocks[i][j].display();
         }
       }
-      
+
       // Go to next level if necessary
       if (score % 1000 == 0 && thisLevelScore > 0) {
         level += 1;
@@ -133,6 +133,7 @@ void draw() {
     textFont(gameOver);
     text("GAME OVER", width/2, height/2);
   }
+  
 }
 
 // Respond to keypresses
@@ -152,23 +153,24 @@ void keyPressed() {
       }
     }
   } else if (key == 'c') {  // cheat to test level advancing
-    
-      for (int i = 0; i < rows; i+=1) {
-        for (int j = 0; j < columns; j+=1) {
-          blocks[i][j].active = false;
-        }
+
+    for (int i = 0; i < rows; i+=1) {
+      for (int j = 0; j < columns; j+=1) {
+        blocks[i][j].active = false;
       }
-      blocks[3][6].active = true;
-      score = 990 + level * 1000;
-      thisLevelScore = 990;
-      
-      bouncer.location.x = width/2;
-      bouncer.location.y = height - 100;
-      bouncer.velocity.x = 2;
-      bouncer.velocity.y = -2;
-      bouncer.countDown = 60;
-    
+    }
+    blocks[3][6].active = true;
+    score = 990 + level * 1000;
+    thisLevelScore = 990;
+
+    bouncer.location.x = width/2;
+    bouncer.location.y = height - 100;
+    bouncer.velocity.x = 2;
+    bouncer.velocity.y = -2;
+    bouncer.countDown = 60;
   }
+
+
 }
 
 // Initialize the blocks
