@@ -177,9 +177,13 @@ void keyPressed() {
 void initBlocks() {
   for (int i = 0; i < rows; i += 1) {
     for (int j = 0; j < columns; j += 1) {
-      RVector l = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
-      RVector s = new RVector(width/15, 25); // size of block
-      blocks[i][j] = new Block(l, s, (0 + 15 * i + 60 * level) % 360, 80, 70, 40 - i * 10);
+      RVector location = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
+      RVector size = new RVector(width/15, 25); // size of block
+      int hue = (0 + 15 * i + 60 * level) % 360;
+      int saturation = 80;
+      int brightness = 70;
+      int pointValue = 40 - i * 10;
+      blocks[i][j] = new Block(location, size, hue, saturation, brightness, pointValue);
     }
   }
 }
