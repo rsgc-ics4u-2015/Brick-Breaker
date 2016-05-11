@@ -73,65 +73,20 @@ void draw() {
   // Play game or show game over
   if (lives >= 0) {
 
-    // Adjust framerate
-    frameRate(rate);
-    fill(0, 0, 70);  // white
-    textFont(fps);
-    textAlign(LEFT);
-    text("fps: " + rate, 5, height - 10);
+    // Animation speed
+    adjustAnimationSpeed();
 
     // Show score
-    fill(0, 0, 70);  // white
-    textFont(fps);
-    textAlign(RIGHT);
-    text("level: " + (level + 1) + "     new lives: " + lives + "     score: " + score, width - 5, height - 10);
+    showScore();
 
-    // Update bouncer and check position
-    if (bouncer.checkEdges() == -1) {
-      lives -= 1;
-      bouncer.reset(level*0.2);
-      paddle.reset();
-    } else {
-
-      // Bounce on paddle if necessary
-      bouncer.checkForPaddleCollision(paddle);
-
-      // Update bouncer position
-      bouncer.update();
-
-      // Draw bouncer
-      bouncer.display();
-
-      // Check for collisions then draw all the blocks
-      for (int i = 0; i < rows; i+=1) {
-        for (int j = 0; j < columns; j+=1) {
-          score += bouncer.checkForBlockCollision(blocks[i][j]);
-          thisLevelScore = score - level * 1000;
-          blocks[i][j].display();
-        }
-      }
-
-      // Go to next level if necessary
-      if (score % 1000 == 0 && thisLevelScore > 0) {
-        level += 1;
-        lives += 1;
-        bouncer.reset(level*0.2);
-        paddle.reset();
-        initBlocks();
-        thisLevelScore = 0;
-      }
-
-      // Draw the paddle
-      paddle.checkEdge();
-      paddle.update();
-      paddle.display();
-    }
+    // Move the bouncer
+    moveBouncer();
+    
   } else {
-    textAlign(CENTER, CENTER);
-    textSize(48);
-    fill(0, 0, 80);
-    textFont(gameOver);
-    text("GAME OVER", width/2, height/2);
+
+    // The game is over
+    gameOver();
+    
   }
   
 }
@@ -155,33 +110,19 @@ void keyPressed() {
     
   } else if (key == 'c') {  // cheat to test level advancing
 
-    // make most of the blocks inactive
-    for (int i = 0; i < rows; i+=1) {
-      for (int j = 0; j < columns; j+=1) {
-        blocks[i][j].active = false;
-      }
-    }
+    cheat();
     
-    // make one block active and adjust score to reflect the cheat
-    blocks[3][6].active = true;
-    score = 990 + level * 1000;
-    thisLevelScore = 990;
-
-    // set the ball location and velocity such that it's ready to hit the final block
-    bouncer.location.x = width/2;
-    bouncer.location.y = height - 100;
-    bouncer.velocity.x = 2;
-    bouncer.velocity.y = -2;
-    bouncer.countDown = 60;
   }
-
-
+  
 }
 
 // Initialize the blocks
 void initBlocks() {
+  
   for (int i = 0; i < rows; i += 1) {
+    
     for (int j = 0; j < columns; j += 1) {
+      
       RVector location = new RVector(45 + (j) * (width/15) + (j - 1) * 25, 40 + i * 25 + (i - 1) * 20); // location of block
       RVector size = new RVector(width/15, 25); // size of block
       int hue = (0 + 15 * i + 60 * level) % 360;
@@ -189,6 +130,130 @@ void initBlocks() {
       int brightness = 70;
       int pointValue = 40 - i * 10;
       blocks[i][j] = new Block(location, size, hue, saturation, brightness, pointValue);
+      
+    }
+    
+  }
+  
+}
+
+// Change the frame rate
+void adjustAnimationSpeed() {
+
+  // Adjust framerate
+  frameRate(rate);
+  fill(0, 0, 70);  // white
+  textFont(fps);
+  textAlign(LEFT);
+  text("fps: " + rate, 5, height - 10);
+  
+}
+
+// display the score
+void showScore() {
+
+  fill(0, 0, 70);  // white
+  textFont(fps);
+  textAlign(RIGHT);
+  text("level: " + (level + 1) + "     new lives: " + lives + "     score: " + score, width - 5, height - 10);
+  
+}
+
+// move the bouncer as needed
+void moveBouncer() {
+
+  // Update bouncer and check position
+  if (bouncer.checkEdges() == -1) {
+
+    // Player has died, so start a new life
+    lives -= 1;
+    bouncer.reset(level*0.2);
+    paddle.reset();
+    
+  } else {
+
+    // Bounce on paddle if necessary
+    bouncer.checkForPaddleCollision(paddle);
+
+    // Update bouncer position
+    bouncer.update();
+
+    // Draw bouncer
+    bouncer.display();
+
+    // Check for collisions then draw all the blocks
+    drawBlocks();
+
+    // Go to next level if necessary
+    checkForLevelUp();
+
+    // Draw the paddle
+    paddle.checkEdge();
+    paddle.update();
+    paddle.display();
+    
+  }
+  
+}
+
+// The game is over
+void gameOver() {
+
+  textAlign(CENTER, CENTER);
+  textSize(48);
+  fill(0, 0, 80);
+  textFont(gameOver);
+  text("GAME OVER", width/2, height/2);
+  
+}
+
+// Draw all the blocks, after checking whether they have hit the bouncer
+void drawBlocks() {
+  
+  for (int i = 0; i < rows; i+=1) {
+    for (int j = 0; j < columns; j+=1) {
+      score += bouncer.checkForBlockCollision(blocks[i][j]);
+      thisLevelScore = score - level * 1000;
+      blocks[i][j].display();
     }
   }
+  
+}
+
+// Check for next level
+void checkForLevelUp() {
+  
+  if (score % 1000 == 0 && thisLevelScore > 0) {
+    level += 1;
+    lives += 1;
+    bouncer.reset(level*0.2);
+    paddle.reset();
+    initBlocks();
+    thisLevelScore = 0;
+  }
+  
+}
+
+// Finish a level with no effort
+void cheat() {
+  
+  // make most of the blocks inactive
+  for (int i = 0; i < rows; i+=1) {
+    for (int j = 0; j < columns; j+=1) {
+      blocks[i][j].active = false;
+    }
+  }
+
+  // make one block active and adjust score to reflect the cheat
+  blocks[3][6].active = true;
+  score = 990 + level * 1000;
+  thisLevelScore = 990;
+
+  // set the ball location and velocity such that it's ready to hit the final block
+  bouncer.location.x = width/2;
+  bouncer.location.y = height - 100;
+  bouncer.velocity.x = 2;
+  bouncer.velocity.y = -2;
+  bouncer.countDown = 60;
+  
 }

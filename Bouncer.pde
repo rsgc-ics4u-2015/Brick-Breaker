@@ -10,33 +10,39 @@ class Bouncer {
 
     reset(0);
     radius = 8;
+    
   }
 
   // update position
   void update() {
+    
     // Move the ball according to it's speed
     if (countDown > 0) {
-      countDown -= 1;
+      countDown -= 1;            // don't move until the countdown is at zero
     } else {
       location.add(velocity);
     }
+    
   }
 
   // show the object
   void display() {
+    
     // Visual characteristics of the ball
     fill(0, 0, 90);
 
     // Display the ball at the location (x, y)
     ellipse(location.x, location.y, radius*2, radius*2);
+    
   }
 
   // reset position
   void reset(float increment) {
-    location = new RVector( width / 2, height / 16 * 11 );
-    float randomValue = random(-1, 1);
-    velocity = new RVector(2 + increment, 2 + increment);
-    countDown = 60;
+    
+    location = new RVector( width / 2, height / 16 * 11 );    // bottom middle of screen
+    velocity = new RVector(2 + increment, 2 + increment);     // speed is based on level
+    countDown = 60;                                           // how many frames to wait before moving
+    
   }
 
   // check for edges
@@ -50,10 +56,11 @@ class Bouncer {
       velocity.y = velocity.y * -1;
     }
     if (location.y > height) {
-      return -1;
+      return -1;  // death
     } else {
-      return 0;
+      return 0;  // still alive!
     }
+    
   }
 
   // check for a collision with the paddle
@@ -71,23 +78,31 @@ class Bouncer {
         positionOnCircumference.x < paddle.location.x + paddle.size.x &&
         positionOnCircumference.y > paddle.location.y &&
         positionOnCircumference.y < paddle.location.y + paddle.size.y)
-
       {
 
         // Change direction based on bounce location and velocity
         if (i > 0 && i < 180 && velocity.y > 0) {
+          
           velocity.y *= -1;                // hit on bottom of ball when moving down on screen
+          
         } else if (i > 270 && velocity.x > 0 || i < 90 && velocity.x > 0) {
+          
           if (!(paddle.velocity.x > 0 && velocity.x > 0 || paddle.velocity.x < 0 && velocity.x < 0)) {
             velocity.x *= -1;                // hit on right side of ball when moving right on screen
           }
+          
         } else if (i > 90 && i < 270 && velocity.x < 0) {
+          
           if (!(paddle.velocity.x > 0 && velocity.x > 0 || paddle.velocity.x < 0 && velocity.x < 0)) {
             velocity.x *= -1;                // hit on left side of ball when moving left on screen
           }
+          
         }
+        
       }
+      
     }
+    
   }
 
   // check for a collision with the block
@@ -123,9 +138,13 @@ class Bouncer {
         } else if (i > 270 && velocity.x > 0 || i < 90 && velocity.x > 0) {
           velocity.x *= -1;                // hit on right side of ball when moving right on screen
         }
+        
       }
+      
     }
 
     return pointsEarned;
+    
   }
+  
 } 

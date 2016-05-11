@@ -40,7 +40,7 @@ class Block {
       fill(hue, saturation, brightness);
       rect(location.x, location.y, size.x, size.y);
     }
+    
   }
-  
   
 }
