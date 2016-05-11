@@ -145,13 +145,14 @@ void keyPressed() {
       paddle.goLeft(-4 - level*0.4);
     } else if (keyCode == RIGHT) {
       paddle.goRight(4 + level*0.4);
-    } else if (keyCode == UP) {
-      rate += 1;
+    } else if (keyCode == UP) {        
+      rate += 1;        // speed up animation
     } else if (keyCode == DOWN) {
       if (rate > 1) {
-        rate -= 1;
+        rate -= 1;      // slow down animation
       }
     }
+    
   } else if (key == 'c') {  // cheat to test level advancing
 
     // make most of the blocks inactive
