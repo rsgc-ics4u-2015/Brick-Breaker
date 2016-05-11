@@ -154,15 +154,19 @@ void keyPressed() {
     }
   } else if (key == 'c') {  // cheat to test level advancing
 
+    // make most of the blocks inactive
     for (int i = 0; i < rows; i+=1) {
       for (int j = 0; j < columns; j+=1) {
         blocks[i][j].active = false;
       }
     }
+    
+    // make one block active and adjust score to reflect the cheat
     blocks[3][6].active = true;
     score = 990 + level * 1000;
     thisLevelScore = 990;
 
+    // set the ball location and velocity such that it's ready to hit the final block
     bouncer.location.x = width/2;
     bouncer.location.y = height - 100;
     bouncer.velocity.x = 2;
